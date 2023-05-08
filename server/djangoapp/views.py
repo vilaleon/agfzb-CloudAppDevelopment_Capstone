@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
-# from .models import related models
-# from .restapis import related methods
+from .models import CarDealer
+from .restapis import get_dealers_from_cf
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from datetime import datetime
@@ -83,6 +83,9 @@ def registration_request(request):
 def get_dealerships(request):
     context = {}
     if request.method == "GET":
+        url = "https://us-south.functions.appdomain.cloud/api/v1/web/e9ea5ee9-8324-467c-a4af-13dcb556a44c/dealership-package/get-dealership"
+        dealerships = get_dealers_from_cf(url)
+        context["dealership_list"] = dealerships
         return render(request, 'djangoapp/index.html', context)
 
 
